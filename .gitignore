@@ -1,0 +1,6 @@
+*.jpg
+*.zip
+mmdetection/
+output*
+
+*.pth
