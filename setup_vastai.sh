@@ -3,10 +3,10 @@
 # @Author: Luis Condados
 # @Date:   2023-07-02 22:56:19
 # @Last Modified by:   Luis Condados
-# @Last Modified time: 2023-07-02 23:22:09
+# @Last Modified time: 2023-07-03 00:33:12
 
 
-apt install -y build-essentials htop
+apt install -y build-essentials htop libglu1-mesa-dev
 pip install nvitop
 
 pip install -r requirements.txt
