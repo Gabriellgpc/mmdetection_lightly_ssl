@@ -1,4 +1,4 @@
-# MMDetection + Self-supervised training with Lightly
+# Exploring MMPretrain and MMDetection
 
 This repository is about an exploration the potential of using MMDetections models with self-supervised training techniques.
 
@@ -11,17 +11,17 @@ The networks and techniques explored here are:
 TODO
 ```
 
-
 # Instalation process
 
-## Create env and activate it
+Create env and activate it
 
 ```bash
 $ conda create -n mmdet-ssl python=3.9
 $ conda activate mmdet-ssl
 ```
 
-## Install python dependencies
+Basic dependencies
+
 ```bash
 $ conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
 $ pip install -U openmim
@@ -29,7 +29,25 @@ $ mim install mmengine
 $ mim install "mmcv>=2.0.0"
 ```
 
-## Install MMDetection
+## Fiftyone
+
+```
+$ pip install fiftyone
+$ pip install "fiftyone[desktop]"
+$ pip install 'ipywidgets>=7.5,<8'
+```
+
+Troubleshooting for my linux:
+
+```
+$ pip install fiftyone-db-ubuntu2204
+```
+
+## MMPretrain
+
+## MMDetection
+
+## Install python dependencies
 
 ```bash
 $ git clone https://github.com/open-mmlab/mmdetection.git
@@ -50,6 +68,8 @@ mim download mmdet --config <configuration-name>
 * TTA: [Test time augmentation](https://mmdetection.readthedocs.io/en/latest/user_guides/test.html?highlight=tta#test-time-augmentation-tta)
 
 # TODO - exploration
+[] Explore Pretrained models from MMPretrain
+
 [] Train a RTMDET-ins on a standard dataset
 
 [] Train a RTMDET-ins using ConvNext as backbone
