@@ -1,5 +1,14 @@
+# -*- coding: utf-8 -*-
+# @Author: Luis Condados
+# @Date:   2023-07-02 22:51:00
+# @Last Modified by:   Luis Condados
+# @Last Modified time: 2023-07-03 02:04:50
+
 # dataloader hparams
-data_root = '/home/lcondados/workspace/data/hair-seg'
+
+_base_ = '../../dataset/shoes_dataset_metainfo.py'
+
+data_root = '/workspace/datasets/shoes_cv'
 train_images_dir = 'train/'
 train_annotation_file = 'train/_annotations.coco.json'
 
@@ -12,28 +21,22 @@ test_annotation_file = 'test/_annotations.coco.json'
 val_evaluator_annotation_file = f'{data_root}/{val_annotation_file}'
 test_evaluator_annotation_file = val_evaluator_annotation_file
 
-metainfo = {
-    'classes': ('hair', ),
-    'palette': [
-        (220, 20, 60),
-    ]
-}
 
-imsize = (128, 128)
-batch_size = 4
+imsize = (640, 640)
+batch_size = 34
 num_workers= 10
 
 # train and testing hparams
-max_epochs = 1000
+max_epochs = 100
 base_lr = 0.004
 
-stage2_num_epochs = 10
+stage2_num_epochs = 20
 
 eval_interval = 1
 
 # model hparams
-checkpoint = 'https://download.openmmlab.com/mmdetection/v3.0/rtmdet/cspnext_rsb_pretrain/cspnext-tiny_imagenet_600e.pth'
-num_classes = 1
+checkpoint = '/workspace/mmdetection_lightly_ssl/configs/base_config/rtmdet-ins_tiny_8xb32-300e_coco_20221130_151727-ec670f7e.pth'
+load_from = checkpoint
 
 # optimization hparams
 param_scheduler_begin = max_epochs//2

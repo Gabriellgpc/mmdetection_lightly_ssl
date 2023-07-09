@@ -51,8 +51,7 @@ $ pip install fiftyone-db-ubuntu2204
 
 ```bash
 $ git clone https://github.com/open-mmlab/mmdetection.git
-$ cd mmdetection
-$ pip install -v -e .
+$ cd mmdetection && pip install -v -e .
 ```
 
 ## Download a specific configuration and weights from MMDetection
@@ -84,4 +83,4 @@ mim download mmdet --config <configuration-name>
 
 [] Script to pick the most unique x% from a given dataset
 
-[] Explore COCO-ish dataset using fiftyone 
+[] Explore COCO-ish dataset using fiftyone
