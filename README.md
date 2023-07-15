@@ -67,13 +67,13 @@ mim download mmdet --config <configuration-name>
 * TTA: [Test time augmentation](https://mmdetection.readthedocs.io/en/latest/user_guides/test.html?highlight=tta#test-time-augmentation-tta)
 
 # TODO - exploration
-[] Explore Pretrained models from MMPretrain
+[x] Explore Pretrained models from MMPretrain
+
+[] Pre-training the ConvNext using SSL
 
 [] Train a RTMDET-ins on a standard dataset
 
 [] Train a RTMDET-ins using ConvNext as backbone
-
-[] Pre-training the ConvNext using SSL
 
 [] Train a RTMDET-ins model using the pre-trained ConvNext with SSL
 
