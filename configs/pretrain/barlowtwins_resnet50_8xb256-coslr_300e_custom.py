@@ -2,11 +2,12 @@
 # @Author: Luis Condados
 # @Date:   2023-07-15 11:45:11
 # @Last Modified by:   Luis Condados
-# @Last Modified time: 2023-07-15 11:50:13
-dataset_type = 'ImageNet'
-data_root = '/home/lcondados/workspace/data/coco-2017'
-batch_size = 4
+# @Last Modified time: 2023-07-15 12:16:53
+dataset_type = 'CustomDataset'
+data_root = '/home/lcondados/workspace/data/coco-2017/train'
+batch_size = 2
 max_epochs = 10
+scale=8
 
 data_preprocessor = dict(
     type='SelfSupDataPreprocessor',
@@ -22,9 +23,10 @@ data_preprocessor = dict(
     ],
     to_rgb=True)
 view_pipeline1 = [
+    dict(type='Resize', scale=(scale, scale), keep_ratio=True),
     dict(
         type='RandomResizedCrop',
-        scale=224,
+        scale=scale,
         interpolation='bicubic',
         backend='pillow'),
     dict(type='RandomFlip', prob=0.5),
@@ -59,9 +61,10 @@ view_pipeline1 = [
     dict(type='Solarize', thr=128, prob=0.0),
 ]
 view_pipeline2 = [
+    dict(type='Resize', scale=(scale, scale), keep_ratio=True),
     dict(
         type='RandomResizedCrop',
-        scale=224,
+        scale=scale,
         interpolation='bicubic',
         backend='pillow'),
     dict(type='RandomFlip', prob=0.5),
@@ -103,82 +106,7 @@ train_pipeline = [
             1,
             1,
         ],
-        transforms=[
-            [
-                dict(
-                    type='RandomResizedCrop',
-                    scale=224,
-                    interpolation='bicubic',
-                    backend='pillow'),
-                dict(type='RandomFlip', prob=0.5),
-                dict(
-                    type='RandomApply',
-                    transforms=[
-                        dict(
-                            type='ColorJitter',
-                            brightness=0.4,
-                            contrast=0.4,
-                            saturation=0.2,
-                            hue=0.1),
-                    ],
-                    prob=0.8),
-                dict(
-                    type='RandomGrayscale',
-                    prob=0.2,
-                    keep_channels=True,
-                    channel_weights=(
-                        0.114,
-                        0.587,
-                        0.2989,
-                    )),
-                dict(
-                    type='GaussianBlur',
-                    magnitude_range=(
-                        0.1,
-                        2.0,
-                    ),
-                    magnitude_std='inf',
-                    prob=1.0),
-                dict(type='Solarize', thr=128, prob=0.0),
-            ],
-            [
-                dict(
-                    type='RandomResizedCrop',
-                    scale=224,
-                    interpolation='bicubic',
-                    backend='pillow'),
-                dict(type='RandomFlip', prob=0.5),
-                dict(
-                    type='RandomApply',
-                    transforms=[
-                        dict(
-                            type='ColorJitter',
-                            brightness=0.4,
-                            contrast=0.4,
-                            saturation=0.2,
-                            hue=0.1),
-                    ],
-                    prob=0.8),
-                dict(
-                    type='RandomGrayscale',
-                    prob=0.2,
-                    keep_channels=True,
-                    channel_weights=(
-                        0.114,
-                        0.587,
-                        0.2989,
-                    )),
-                dict(
-                    type='GaussianBlur',
-                    magnitude_range=(
-                        0.1,
-                        2.0,
-                    ),
-                    magnitude_std='inf',
-                    prob=0.1),
-                dict(type='Solarize', thr=128, prob=0.2),
-            ],
-        ]),
+        transforms=[view_pipeline1, view_pipeline2]),
     dict(type='PackInputs'),
 ]
 train_dataloader = dict(
@@ -190,93 +118,9 @@ train_dataloader = dict(
     dataset=dict(
         type=dataset_type,
         data_root=data_root,
-        split='train',
-        pipeline=[
-            dict(type='LoadImageFromFile'),
-            dict(
-                type='MultiView',
-                num_views=[
-                    1,
-                    1,
-                ],
-                transforms=[
-                    [
-                        dict(
-                            type='RandomResizedCrop',
-                            scale=224,
-                            interpolation='bicubic',
-                            backend='pillow'),
-                        dict(type='RandomFlip', prob=0.5),
-                        dict(
-                            type='RandomApply',
-                            transforms=[
-                                dict(
-                                    type='ColorJitter',
-                                    brightness=0.4,
-                                    contrast=0.4,
-                                    saturation=0.2,
-                                    hue=0.1),
-                            ],
-                            prob=0.8),
-                        dict(
-                            type='RandomGrayscale',
-                            prob=0.2,
-                            keep_channels=True,
-                            channel_weights=(
-                                0.114,
-                                0.587,
-                                0.2989,
-                            )),
-                        dict(
-                            type='GaussianBlur',
-                            magnitude_range=(
-                                0.1,
-                                2.0,
-                            ),
-                            magnitude_std='inf',
-                            prob=1.0),
-                        dict(type='Solarize', thr=128, prob=0.0),
-                    ],
-                    [
-                        dict(
-                            type='RandomResizedCrop',
-                            scale=224,
-                            interpolation='bicubic',
-                            backend='pillow'),
-                        dict(type='RandomFlip', prob=0.5),
-                        dict(
-                            type='RandomApply',
-                            transforms=[
-                                dict(
-                                    type='ColorJitter',
-                                    brightness=0.4,
-                                    contrast=0.4,
-                                    saturation=0.2,
-                                    hue=0.1),
-                            ],
-                            prob=0.8),
-                        dict(
-                            type='RandomGrayscale',
-                            prob=0.2,
-                            keep_channels=True,
-                            channel_weights=(
-                                0.114,
-                                0.587,
-                                0.2989,
-                            )),
-                        dict(
-                            type='GaussianBlur',
-                            magnitude_range=(
-                                0.1,
-                                2.0,
-                            ),
-                            magnitude_std='inf',
-                            prob=0.1),
-                        dict(type='Solarize', thr=128, prob=0.2),
-                    ],
-                ]),
-            dict(type='PackInputs'),
-        ]))
+        pipeline=train_pipeline
+    )
+)
 default_scope = 'mmpretrain'
 default_hooks = dict(
     timer=dict(type='IterTimerHook'),

@@ -2,10 +2,10 @@
 # @Author: Luis Condados
 # @Date:   2023-07-09 22:39:56
 # @Last Modified by:   Luis Condados
-# @Last Modified time: 2023-07-15 11:56:35
+# @Last Modified time: 2023-07-16 12:13:55
 
 TRAIN_CONFIG=$1
-WORK_DIR=./train-output
+WORK_DIR=./output-train
 GPUS=1
 
 # mim train mmpetrain \
