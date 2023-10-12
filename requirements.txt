@@ -1,6 +1,9 @@
-opencv
+opencv-python
 matplotlib
 tensorboard
 click
-nvitopmatplotlib
-opencv
+nvitop
+torchvision
+lightning
+lightly
+jupyterlab

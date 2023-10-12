@@ -1,0 +1,44 @@
+# @Author: Luis Condados
+# @Date:   2023-09-17 11:24:53
+# @Last Modified by:   Luis Condados
+# @Last Modified time: 2023-10-11 19:36:12
+
+version: "3.9"  # optional since v1.27.0
+
+# docker-compose reference: https://docs.docker.com/compose/compose-file/compose-file-v3
+
+# docker run --gpus all -it --rm --net=host --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY -w /opt/nvidia/deepstream/deepstream-6.3 nvcr.io/nvidia/deepstream:6.3-gc-triton-devel
+
+services:
+  main:
+    container_name: "mmpretrain_discoveries"
+    image: mmpretrain_discoveries
+    build: .
+    working_dir: /opt/nvidia/deepstream/deepstream-6.3
+    # user: "${UID}:${GID}"
+    environment:
+      - DISPLAY=$DISPLAY
+    volumes:
+      - /etc/passwd:/etc/passwd #just to get the user name by using getpwuid()
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - type: bind
+        source: ./workspace
+        target: /workspace
+      # - type: bind
+      #   source: ${DATASETS}
+      #   target: /datasets
+      #   volume:
+      #     nocopy: true
+        # read_only: true
+    deploy:
+    # For more information: https://docs.docker.com/compose/gpu-support/
+      resources:
+        # limits:
+        #   cpus: ${CPU}
+        #   memory: ${MEMORY}
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+    privileged: true
+    command: tail -F anything
